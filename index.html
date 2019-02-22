@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"><script src="https://cdn.jsdelivr.net/npm/vue"></script><link href="https://fonts.googleapis.com/css?family=Sawarabi+Gothic" rel="stylesheet"><style>body {
+      margin: 8px 8px;
+      background-color: #36393F;
+    }
+    .page-title {
+      color: #FFFFE1;
+      font-size: 20px;
+      margin: 0 6px 6px 6px;
+    }
+    .note{
+      color: #ACACAF;
+      font-size: 12px;
+    }
+    * {
+      font-family: "Sawarabi Gothic";
+    }
+    .text-input, 
+    .analysis-result {
+      padding: 8px;
+      position: absolute;
+      width: calc(100% - 36px);
+      min-height: 364px; 
+      font-size: 18px;
+      border-radius: 5px;
+    }
+    .text-input {
+      color: #FFFFFF;
+      background: none;
+      z-index: 2;
+      cursor: text;
+      resize: none;
+      border: none;
+      outline:0px !important;
+    }
+    .analysis-result {
+      color: #484B52;
+      background: #484B52;
+      z-index: 1;
+    }
+    .paraphrase-container {
+      color: #FFFFFF;
+      position: fixed;
+    }
+    .paraphrase-container {
+      display: flex;
+      z-index: 4;
+    }
+    .paraphrase {
+      margin: 4px;
+      border-radius: 5px;
+      border: 1px solid #25272B;
+    }
+    .paraphrase-title,
+    .paraphrase-content {
+      padding: 6px;
+      white-space: pre;
+    }
+    .paraphrase-title{
+      background-color: #202225;
+    }
+    .paraphrase-content {
+      background-color: #2F3136;
+    }
+    .candidate:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .highlight {
+      border-bottom: 3px #43B581 dashed;
+    }
+    .menu {
+      font-size: 14px;
+      margin: 6px 0;
+      line-height: 24px;
+    }
+    .menu-option {
+      background-color: #3D414F;
+      color: #7280B2;
+      cursor: pointer;
+      margin-right: 6px;
+      padding: 0 6px;
+      border-radius: 3px;
+    }
+    [v-cloak] {
+      display: none;
+    }</style><title>語彙力！大人の言葉使いを簡単変換</title></head><body><div id="app" v-cloak><div v-if="!ready" class="page-title">読み込み中...</div><div v-if="ready"><div class="page-title">語彙力！大人の言葉使いを簡単変換 <span v-if="isPC" class="note">Alt + 数字キーでメニュー操作</span></div><div class="menu"><span v-if="!subMenuOptions" v-for="(category, i) in Object.keys(dictionary)" @click="activeSubMenuIndex = i" class="menu-option"><span v-if="isPC">{{(i + 1).toString(36)}}</span><span>> {{category}}</span> </span><span v-for="(option, i) in subMenuOptions" @click="applyKeyword(i)" class="menu-option"><span v-if="isPC">{{(i + 1).toString(36)}}</span><span>> {{option}}</span> </span><span v-if="subMenuOptions" @click="activeSubMenuIndex = null" class="menu-option"><span v-if="isPC">{{(subMenuOptions.length + 1).toString(36)}}</span><span>> (←前に戻る)</span></span></div><textarea v-model="inputText" ref="textInput" placeholder="#ここに文章を入力してください。" @click="handleParaphraseBox" autofocus class="text-input" :style="{height: inputTextHeight}"></textarea><div class="analysis-result" ref="analysisResult"><span v-for="token in inputTokens"><span v-if="'highlight' === token.type" ref="highlight" class="highlight">{{token.text}}</span> <span v-else-if="'space' === token.type">&nbsp;</span><br v-else-if="'line-break' === token.type"><span v-else>{{token.text}}</span> </span>&nbsp;</div><div class="paraphrase-container" :style="paraphrasesContainerStyle"><div v-for="paraphrase in activeParaphrases" class="paraphrase"><div class="paraphrase-title">{{paraphrase.title}}</div><div class="paraphrase-content"><div v-for="(candidate, i) in paraphrase.candidates" @click="applyRestatement(i)" class="candidate"><span v-if="isPC">{{(candidate.index + 1).toString(36)}}</span><span>> {{candidate.text}}</span></div></div></div></div></div></div><script src="js/1.c85d8051.chunk.js"></script><script src="js/app.a2f06ecd.js"></script></body></html>
